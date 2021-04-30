@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DIO.Bank.Enum;
 
 namespace DIO.Bank
 {
@@ -11,9 +12,20 @@ namespace DIO.Bank
         {
             Console.WriteLine();
             Console.WriteLine("======== Inserir nova conta ========");
-            
-            Console.Write("1 - Pessoa Física ou 2 - Jurídica: ");
-            int entradaTipoConta = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Escolha uma Natureza");
+            Console.WriteLine("\t1 - Física\n\t2 - Jurídica");
+            Console.Write("Sua Opção: ");
+            int entradaTipoPessoa = int.Parse(Console.ReadLine());
+
+            int entradaTipoConta = 2;
+            if (entradaTipoPessoa != 2)
+            {
+                Console.WriteLine("Escolha um Tipo de Conta");
+                Console.WriteLine("\t1 - Poupança\n\t2 - Corrente\n\t3 - Poupança + Corrente\n\t4 - Salário");
+                Console.Write("Sua Opção: ");
+                entradaTipoConta = int.Parse(Console.ReadLine());
+            }
             
             Console.Write("Nome do Cliente: ");
             string entradaNome = Console.ReadLine();
@@ -21,15 +33,21 @@ namespace DIO.Bank
             Console.Write("Saldo inicial: R$ ");
             double entradaSaldo = double.Parse(Console.ReadLine());
 
-            Console.Write("Crédito: R$ ");
-            double entradaCredito = double.Parse(Console.ReadLine());
+            double entradaCredito = 0;
+            if (entradaTipoConta == 2 || entradaTipoConta == 3 || entradaTipoConta == 4)
+            {
+                Console.Write("Crédito: R$ ");
+                entradaCredito = double.Parse(Console.ReadLine());
+            }
+
             Console.WriteLine();
             Conta novaConta = new Conta(
+                tipoPessoa: (TipoPessoa)entradaTipoPessoa,
                 tipoConta: (TipoConta)entradaTipoConta,
                 saldo: entradaSaldo, 
                 credito: entradaCredito, 
                 nome: entradaNome);
-
+            double.IsNegative(-43);
             listaContas.Add(novaConta);
 
         }
@@ -37,28 +55,32 @@ namespace DIO.Bank
         public static void ListarContas() 
         {
             Console.WriteLine();
-            Console.WriteLine("======== Listar contas ========");
+            Console.WriteLine("\t\t\t----------- Listar contas -----------");
 
             if (listaContas.Count == 0)
             {
-                Console.WriteLine("#            --             #");
+                Console.WriteLine("+---------------------------+");
                 Console.WriteLine("| Nenhuma conta cadastrada. |");
-                Console.WriteLine("#            --             #");
+                Console.WriteLine("+---------------------------+");
             }
 
-            Console.WriteLine("|    Tipo de Conta    |            Nome           |      Saldo     |     Crédito     |");
+            Console.WriteLine("+---+----------+----------+------------------------------+---------------+---------------+");
+            Console.WriteLine("| # |  Pessoa  |   Conta  |             Nome             |     Saldo     |    Crédito    |" );
             for (int i = 0; i < listaContas.Count; i++) {
                 Conta conta = listaContas[i];
-                Console.WriteLine("#{0} = {1}", i, conta);
+                Console.WriteLine("| {0} |{1}|", i, conta);
                 
             }
+            Console.WriteLine("+---+----------+----------+------------------------------+---------------+---------------+");
             Console.WriteLine();
+            Console.WriteLine("Aperte Qualquer tecla para continuar...");
+            Console.ReadLine();
         }
 
         private static void Sacar()
         {
             Console.WriteLine();
-            Console.WriteLine("========= Sacar =========");
+            Console.WriteLine("----------- Sacar ------------");
 
             Console.Write("Número da conta: ");
             int indiceConta = int.Parse(Console.ReadLine());
@@ -72,7 +94,7 @@ namespace DIO.Bank
         private static void Depositar()
         {
             Console.WriteLine();
-            Console.WriteLine("========= Depositar =========");
+            Console.WriteLine("---------- Depositar -----------");
             Console.Write("Número da Conta: ");
             int indiceConta = int.Parse(Console.ReadLine());
 
@@ -137,7 +159,7 @@ namespace DIO.Bank
         public static string ObterOpcaoUsuario()
         {
             Console.WriteLine();
-            Console.WriteLine("========== DIO Bank =========");
+            Console.WriteLine("+--------- DIO Bank --------+");
             Console.WriteLine("| Informe a opção desejada: |");
 
             Console.WriteLine("| 1 - Inserir nova conta    |");
@@ -147,7 +169,7 @@ namespace DIO.Bank
             Console.WriteLine("| 5 - Depositar             |");
             Console.WriteLine("| C - Limpar Tela           |");
             Console.WriteLine("| X - Sair                  |");
-            Console.WriteLine("=============================");
+            Console.WriteLine("+---------------------------+");
             Console.WriteLine();
 
             string opcaoUsuario = Console.ReadLine().ToUpper();

@@ -1,6 +1,10 @@
-namespace DIO.Bank {
-    public enum TipoConta {
-        PessoaFísica = 1,
-        PessoaJurídica = 2
-    }
+namespace DIO.Bank.Enum
+{
+    public enum TipoConta 
+    {
+        Poupança = 1,
+        Corrente = 2,
+        Híbrida = 3,
+        Salário = 4
+    }   
 }
